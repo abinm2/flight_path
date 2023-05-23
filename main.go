@@ -27,7 +27,9 @@ func CalculateFlightPath(flights [][]string) (response, error) {
 	dmap := make(map[string]string)
 	smap := make(map[string]string)
 
-	// Iterate through the flights and update the airports map
+	// Iterate through the flights and update the airports map. Check
+	// for invalid inputs before adding them into the map and also look
+	// for any flight path cycle
 	for _, flight := range flights {
 		if flight[0] == "" || flight[1] == "" {
 			return response{nil, http.StatusBadRequest}, errors.New("blank airport name")
