@@ -29,8 +29,19 @@ func CalculateFlightPath(flights [][]string) (response, error) {
 
 	// Iterate through the flights and update the airports map
 	for _, flight := range flights {
-		dmap[flight[1]] = flight[0]
-		smap[flight[0]] = flight[1]
+		if flight[0] == "" || flight[1] == "" {
+			return response{nil, http.StatusBadRequest}, errors.New("blank airport name")
+		}
+		if _, ok := dmap[flight[1]]; !ok {
+			dmap[flight[1]] = flight[0]
+		} else {
+			return response{nil, http.StatusBadRequest}, errors.New("destination airport repeated")
+		}
+		if _, ok := smap[flight[0]]; !ok {
+			smap[flight[0]] = flight[1]
+		} else {
+			return response{nil, http.StatusBadRequest}, errors.New("source airport repeated")
+		}
 	}
 
 	// Find the starting airport
@@ -41,19 +52,14 @@ func CalculateFlightPath(flights [][]string) (response, error) {
 			break
 		}
 	}
-	if startAirport == "" {
-		return response{nil, http.StatusBadRequest}, errors.New("invalid input")
-	}
-	// Find the starting airport
+
+	// Find the ending airport
 	var destairport string
 	for _, dst := range smap {
 		if _, ok := smap[dst]; !ok {
 			destairport = dst
 			break
 		}
-	}
-	if destairport == "" {
-		return response{nil, http.StatusBadRequest}, errors.New("invalid input")
 	}
 
 	return response{[]string{startAirport, destairport}, http.StatusOK}, nil

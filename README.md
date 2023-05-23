@@ -23,7 +23,7 @@ Example Request Payload:
 
 ### Response
 
-The API response will be a JSON array representing the sorted flight path. It contains the source and destination airports of the calculated flight path.
+The API response will be a JSON array that contains the source and destination airports of the total flight path.
 
 Example Response:
 
@@ -63,17 +63,13 @@ If an error occurs during the calculation, the API will return an appropriate HT
 
 ### Making API Requests
 
-You can make API requests to the flight path tracker using a tool like `curl` or an API testing tool like Postman.
+You can make API requests to the flight path tracker using a tool like `curl` or any other API testing tool.
 
 Example curl command:
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '[[ "IND", "EWR"], ["SFO", "ATL"], ["GSO", "IND"], ["ATL", "GSO"]]' http://localhost:8080/calculate
 ```
-
-### Error Handling
-
-The server code includes basic error handling for invalid input and internal errors. However, it's recommended to enhance the error handling as per your specific requirements and edge cases.
 
 ## License
 
